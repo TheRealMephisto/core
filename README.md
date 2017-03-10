@@ -11,6 +11,13 @@ When no more moves are possible, the game ends and the player with more stones o
 
 The board is an unchecked 8-by-8 chess board.
 
+### Corner Kills
+
+If the enemy placed a stone at the corner of the board,
+it can be flipped by placing a stone diagonally adjacent to it.
+
+This is possible at any time for every corner.
+
 ### Example Scenario
 
 ```

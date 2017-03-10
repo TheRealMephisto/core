@@ -24,6 +24,11 @@ def score(board):
 	return (player_1, player_2)
 
 def flip_the_shit_out_of_it(board, x, y, player, other):
+	# corner kill
+	if x == 1 and y == 1 and board[0][0] == other: board[0][0] = player
+	if x == 1 and y == 6 and board[7][0] == other: board[7][0] = player
+	if x == 6 and y == 1 and board[0][7] == other: board[0][7] = player
+	if x == 6 and y == 6 and board[7][7] == other: board[7][7] = player
 	# right side of it
 	found = False
 	for i in range(x+1,8):
