@@ -26,7 +26,8 @@
 			for(var j = 0; j < 8; j++) {
 				var item = document.createElement('td');
 				item.onmousedown = function(e) {
-					if(e.button == 2 || e.which == 3) this.setAttribute('class', 'O');
+					if (e.shiftKey) this.setAttribute('class','');
+					else if(e.button == 2 || e.which == 3) this.setAttribute('class', 'O');
 					else this.setAttribute('class', 'X');
 				};
 				item.oncontextmenu = function(e){e.preventDefault();};
