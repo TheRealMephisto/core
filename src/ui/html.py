@@ -1,0 +1,63 @@
+
+import webbrowser, sys, os
+
+def to_html(string):
+	return string.replace('&','&amp;').replace('<','&lt;').replace('>','&gt;').replace('\n','<br/>').replace(' ','&nbsp;')
+
+def display(output, turn_count):
+	print('Open protocol...')
+	ai_1_base = os.path.basename(sys.argv[1])
+	ai_2_base = os.path.basename(sys.argv[2])
+	ai_1 = os.path.splitext(ai_1_base)[0]
+	ai_2 = os.path.splitext(ai_2_base)[0]
+	title = '{} / {}'.format(ai_1, ai_2)
+	html = '<!DOCTYPE html>'
+	html += '<title>{}</title>'.format(to_html(title))
+	html += '''
+		<style>
+		body { font-family: monospace; }
+		h1,h2,h3,.a { font-size: 32px; }
+		/*.a {margin-bottom: 90vh; }*/
+		table {background: khaki;}
+		table, th, td {border: 1px solid black;border-collapse: collapse;}
+		td, .X, .O { width: 64px; height: 64px; }
+		.X {
+			background: linear-gradient(to bottom right, grey, white);
+			border-radius: 50%; }
+		.O {
+			background: linear-gradient(to bottom right, black, grey);
+			border-radius: 50%; }
+		</style>'''
+	html += '<h1>{}</h1>'.format(to_html(title))
+	head,*body = output
+	id_ = 1
+	html += '<h2>{}</h2>'.format(to_html(head))
+	html += '<h3>{} Turns</h3>'.format(turn_count)
+	html += '<hr/>'
+	html += '<div class="a" id="{}">'.format(id_)
+	for item in body:
+		if isinstance(item, str):
+			html += '<p>' + to_html(item) + '</p>'
+		else:
+			html += '<a href="#{}">next</a>'.format(id_+1)
+			html += '<table>'
+			for row in item:
+				html += '<tr>'
+				for string in row:
+					if string == '#':
+						html += '<td>&nbsp;</td>'
+					elif string == 'X':
+						html += '<td><div class="X"></div></td>'
+					elif string == 'O':
+						html += '<td><div class="O"></div></td>'
+					else:
+						html += '<td>' + to_html(string) + '</td>'
+				html += '</tr>'
+			html += '</table>'
+			id_ += 1
+			html += '</div><div class="a" id="{}">'.format(id_)
+	html += '</div>'
+	myfile = open('_display.html','w')
+	myfile.write(html)
+	myfile.close()
+	webbrowser.open('_display.html')
