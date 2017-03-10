@@ -51,7 +51,7 @@ def flip_the_shit_out_of_it(board, x, y, player, other):
 	# bottom side of it
 	found = False
 	for i in range(y+1,8):
-		if board[y][i] == player: found = True
+		if board[i][x] == player: found = True
 	if found:
 		flipped = False
 		for i in range(y+1,8):

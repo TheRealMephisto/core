@@ -30,16 +30,26 @@ def display(output, turn_count):
 		</style>'''
 	html += '<h1>{}</h1>'.format(to_html(title))
 	head,*body = output
-	id_ = 1
+	id_ = 0
 	html += '<h2>{}</h2>'.format(to_html(head))
 	html += '<h3>{} Turns</h3>'.format(turn_count)
 	html += '<hr/>'
-	html += '<div class="a" id="{}">'.format(id_)
+	html += '''
+		<button onclick="
+			var styles = 'table{margin-bottom:100vh;}';
+			var tag = document.createElement('style');
+			tag.appendChild(document.createTextNode(styles));
+			document.head.appendChild(tag);
+			location.href = '#1';">
+		Simulate</button>'''
+	html += '<hr/>'
+	html += '<div class="a">'
 	for item in body:
 		if isinstance(item, str):
 			html += '<p>' + to_html(item) + '</p>'
 		else:
-			html += '<a href="#{}">next</a>'.format(id_+1)
+			id_ += 1
+			html += '<a id="{}" href="#{}">back</a> <a href="#{}">next</a>'.format(id_,id_-1,id_+1)
 			html += '<table>'
 			for row in item:
 				html += '<tr>'
@@ -54,8 +64,7 @@ def display(output, turn_count):
 						html += '<td>' + to_html(string) + '</td>'
 				html += '</tr>'
 			html += '</table>'
-			id_ += 1
-			html += '</div><div class="a" id="{}">'.format(id_)
+			html += '</div><div class="a">'
 	html += '</div>'
 	myfile = open('_display.html','w')
 	myfile.write(html)
