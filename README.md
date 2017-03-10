@@ -49,5 +49,5 @@ since they are surrounded horizontally (no need to be directly adjacent).
 ### Example Match
 
 ```
-% ./core ai_templates/caveman.py ai_templates/debugger.py
+% ./core ai_templates/caveman.py ai_templates/crazy.py
 ```
