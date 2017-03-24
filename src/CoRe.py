@@ -78,7 +78,7 @@ def flip_the_shit_out_of_it(board, x, y, player, other):
 				board[i][x] = player
 		if flipped: gamelib.report('Flip top!')
 
-@gamelib.game('CoRe', 'Computer Reversi')
+@gamelib.game('CoRe', 'The Board Game')
 def game(*ai_list):
 	board = initialize_board()
 	player = 1 # becomes 0 at first switch
