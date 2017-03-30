@@ -82,6 +82,7 @@ def flip_the_shit_out_of_it(board, x, y, player, other):
 def game(*ai_list):
 	board = initialize_board()
 	player = 1 # becomes 0 at first switch
+	strike = [False, False]
 	while True:
 		if board_is_full(board): break
 		gamelib.turn() # <- increases a counter value
@@ -94,6 +95,10 @@ def game(*ai_list):
 			flip_the_shit_out_of_it(board, pos_x, pos_y, player=symbol, other='OX'[player])
 		else:
 			gamelib.report('Player {} can not move to {},{}'.format(player+1,pos_x+1,pos_y+1))
+			if strike[player]:
+				gamelib.report('Player {} looses because of wrong gameplay.'.format(player+1))
+				return
+			else: strike[player] = True
 		gamelib.display_board(board)
 	(player_1, player_2) = score(board)
 	gamelib.report('Score: {} / {}'.format(player_1, player_2))
