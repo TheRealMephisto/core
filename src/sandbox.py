@@ -12,6 +12,12 @@ def load_ai(filename):
 	code = open(filename).read() # quick and dirty, yet production ready code ;)
 	module = imp.new_module('ai')
 	mdict = module.__dict__
+	def getboard(board, x, y):
+		if len(board) > x and len(board[x]) > y:
+			return board[y][x]
+		else:
+			return None
+	mdict['getboard'] = getboard
 	mdict.pop('open',0)
 	mdict.pop('exec',0)
 	mdict.pop('eval',0)
