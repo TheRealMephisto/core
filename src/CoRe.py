@@ -88,7 +88,12 @@ def game(*ai_list):
 		gamelib.turn() # <- increases a counter value
 		player = 1-player # switch player
 		symbol = 'XO'[player]
-		pos_x, pos_y = gamelib.get(ai_list[player], 'turn')(gamelib.copy_board(board), symbol)
+		try:
+			pos_x, pos_y = gamelib.get(ai_list[player], 'turn')(gamelib.copy_board(board), symbol)
+			assert isinstance(pos_x, int), "X Position is not <int> object"
+			assert isinstance(pos_y, int), "Y Position is not <int> object"
+		except Exception as e:
+			gamelib.report('Player {} loses because of raised exception: {}'.format(player+1,str(e)))
 		if pos_x in range(8) and pos_y in range(8) and board[pos_y][pos_x] == '#':
 			gamelib.report('Player {} moved to {},{}'.format(player+1,pos_x+1,pos_y+1))
 			board[pos_y][pos_x] = symbol
@@ -96,7 +101,7 @@ def game(*ai_list):
 		else:
 			gamelib.report('Player {} can not move to {},{}'.format(player+1,pos_x+1,pos_y+1))
 			if strike[player]:
-				gamelib.report('Player {} looses because of wrong gameplay.'.format(player+1))
+				gamelib.report('Player {} loses because of wrong gameplay.'.format(player+1))
 				return
 			else: strike[player] = True
 		gamelib.display_board(board)
