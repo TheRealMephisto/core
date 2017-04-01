@@ -66,7 +66,8 @@ def display(output, turn_count):
 			html += '</table>'
 			html += '</div><div class="a">'
 	html += '</div>'
-	myfile = open('_display.html','w')
+	htmlfilename = '{}_v_{}.html'.format(ai_1, ai_2)
+	myfile = open(htmlfilename,'w')
 	myfile.write(html)
 	myfile.close()
-	webbrowser.open('_display.html')
+	webbrowser.open(htmlfilename)
