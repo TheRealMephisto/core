@@ -50,7 +50,7 @@ since they are surrounded horizontally (no need to be directly adjacent).
 % ./core ai_1 ai_2
 
 # Windows
-% python3 src/CoRe.py ai_1 ai_2
+% python -3 src/CoRe.py ai_1 ai_2
 ```
 
 ### Example Match
