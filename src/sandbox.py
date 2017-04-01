@@ -13,7 +13,7 @@ def load_ai(filename):
 	module = imp.new_module('ai')
 	mdict = module.__dict__
 	def getboard(board, x, y):
-		if len(board) > x and len(board[x]) > y:
+		if x in range(8) and y in range(8):
 			return board[y][x]
 		else:
 			return None
