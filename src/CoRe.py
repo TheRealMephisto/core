@@ -94,6 +94,7 @@ def game(*ai_list):
 			assert isinstance(pos_y, int), "Y Position is not <int> object"
 		except Exception as e:
 			gamelib.report('Player {} loses because of raised exception: {}'.format(player+1,str(e)))
+			return
 		if pos_x in range(8) and pos_y in range(8) and board[pos_y][pos_x] == '#':
 			gamelib.report('Player {} moved to {},{}'.format(player+1,pos_x+1,pos_y+1))
 			board[pos_y][pos_x] = symbol
