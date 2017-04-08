@@ -1,5 +1,7 @@
 # CoRe - AI vs AI
 
+![](screenshot.png)
+
 ## Game Rules
 
 Each player turn consists of placing a stone on the board
