@@ -86,5 +86,5 @@ Dies geht wie folgt:
 
 ## Was kommt als nächstes?
 
-Wenn du dir die Grundlagen verinnerlicht hast, steht als nächstes das Entwickeln einer Torunier-KI an.
+Wenn du dir die Grundlagen verinnerlicht hast, steht als nächstes das Entwickeln einer Turnier-KI an.
 Nimm an Wettbewerben teil, sammle Gewinne und werde ein Erfolgreicher CoRe spieler.

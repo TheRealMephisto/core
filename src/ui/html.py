@@ -15,10 +15,12 @@ def display(output, turn_count):
 	html += '<title>{}</title>'.format(to_html(title))
 	html += '''
 		<style>
-		body { font-family: monospace; }
+		body { font-family: monospace; background-color: rgb(50,50,50); color: rgb(150,150,150); }
 		h1,h2,h3,.a { font-size: 32px; }
-		/*.a {margin-bottom: 90vh; }*/
-		table {background: khaki;}
+		a { color: rgb(200,200,200); }
+		button { background-color: rgb(50,50,50); color: rgb(150,150,150); font-weight: bold;
+			font-size: 24px; }
+		table {background: rgb(100,100,100);}
 		table, th, td {border: 1px solid black;border-collapse: collapse;}
 		td, .X, .O { width: 64px; height: 64px; }
 		.X {
@@ -41,7 +43,11 @@ def display(output, turn_count):
 			tag.appendChild(document.createTextNode(styles));
 			document.head.appendChild(tag);
 			location.href = '#1';">
-		Simulate</button>'''
+		Simulate</button>
+		<button onclick="
+			var turn = prompt('Turn [1-64]', '1');
+			location.href = '#' + turn;">
+		Goto</button>'''
 	html += '<hr/>'
 	html += '<div class="a">'
 	for item in body:
