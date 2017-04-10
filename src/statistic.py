@@ -1,4 +1,8 @@
 import gamelib_cs
+import os
+
+def clear_screen():
+	os.system('cls' if os.name=='nt' else 'clear')
 
 def initialize_board():
 	board = []
@@ -130,7 +134,10 @@ def game(*ai_list):
 		if player_1 == player_2:
 			#gamelib_cs.report("It's a tie!")
 			counter_tie+=1
+		clear_screen()
 		print('( {} / {} )'.format(i, n))
+		print('Kampfgetümmel...')
+	clear_screen()
 	print('( 100 / 100 )')
 	print('Fertig!')
 	print('Anzahl der Siege von Spieler 1: {}'.format(counter_1))
