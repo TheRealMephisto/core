@@ -13,14 +13,19 @@ def turn(amount = 1):
 def game(name='No Name Provided', desc=''):
 	def decorator(fun):
 		global turn_count
-		if len(sys.argv) - 1 == 2:
+		if len(sys.argv) > 2:
 			module_1 = sandbox.load_ai(sys.argv[1])
 			module_2 = sandbox.load_ai(sys.argv[2])
 		else:
 			print('AI arguments unspecified?')
 		report(str(name) + '\n  ' + str(desc).replace('\n','\n  '))
 		fun(module_1, module_2)
-		ui.html.display(output,turn_count)
+		if '-justresult' in sys.argv:
+			print(output[-1])
+		elif '-log' in sys.argv:
+			print('\n'.join(output))
+		else:
+			ui.html.display(output,turn_count)
 		return fun
 	return decorator
 

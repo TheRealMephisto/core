@@ -31,6 +31,9 @@ def turn(board, symbol):
 			assert result[0] in range(8), "First Tuple Value Must Be In Range(8)"
 			assert result[1] in range(8), "Second Tuple Value Must Be In Range(8)"
 			assert board[result[1]][result[0]] == '#', "Field Occupiet"
+			if result in [(1,1),(6,6),(1,6),(6,1)]:
+				yesno = input('Sure you wanna go there?')
+				assert yesno == 'yes', "Not answered 'yes'"
 			return result
 		except KeyboardInterrupt:
 			exit()
