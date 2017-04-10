@@ -60,3 +60,10 @@ since they are surrounded horizontally (no need to be directly adjacent).
 ```
 % ./core ai_templates/caveman.py ai_templates/crazy.py
 ```
+
+### Example Statistic
+
+```
+# 100 Matches
+% python src/statistic.py ai_templates/caveman.py ai_templates/crazy.py 100
+```
