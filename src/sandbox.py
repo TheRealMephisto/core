@@ -24,7 +24,8 @@ def load_ai(filename):
 	mdict.pop('eval',0)
 
 	# Lexical analyzer
-	forbidden = ['subprocess', 'sys', 'os']
+	# TODO: Fix the stupid
+	forbidden = ['import subprocess', 'import sys', 'import os']
 	for word in forbidden:
 		if word in code:
 			raise Exception('Found security issue in {} while looking for {}'.format(filename, word))
