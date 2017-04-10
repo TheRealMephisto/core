@@ -1,4 +1,5 @@
 import gamelib
+import timeout
 
 def initialize_board():
 	board = []
@@ -89,7 +90,7 @@ def game(*ai_list):
 		player = 1-player # switch player
 		symbol = 'XO'[player]
 		try:
-			pos_x, pos_y = gamelib.get(ai_list[player], 'turn')(gamelib.copy_board(board), symbol)
+			pos_x, pos_y = timeout.timelimit(3, gamelib.get(ai_list[player], 'turn'), args=(gamelib.copy_board(board), symbol))
 			assert isinstance(pos_x, int), "X Position is not <int> object"
 			assert isinstance(pos_y, int), "Y Position is not <int> object"
 		except Exception as e:
