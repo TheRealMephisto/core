@@ -1,10 +1,6 @@
-import readline, os
-
-turncount = 0
+import readline
 
 def turn(board, symbol):
-	os.system('clear')
-
 	def printfmt(string):
 		self = symbol
 		other = 'X' if symbol != 'X' else 'O'
