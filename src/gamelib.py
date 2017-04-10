@@ -23,7 +23,7 @@ def game(name='No Name Provided', desc=''):
 		if '-justresult' in sys.argv:
 			print(output[-1])
 		elif '-log' in sys.argv:
-			print('\n'.join(output))
+			print('\n'.join(map(str,output)))
 		else:
 			ui.html.display(output,turn_count)
 		return fun
