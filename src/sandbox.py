@@ -18,9 +18,16 @@ def load_ai(filename):
 		else:
 			return None
 	mdict['getboard'] = getboard
-	mdict.pop('open',0)
+
+	# Pop the obvious exploits
 	mdict.pop('exec',0)
 	mdict.pop('eval',0)
-	mdict.pop('__import__',0)
+
+	# Lexical analyzer
+	forbidden = ['subprocess', 'sys', 'os']
+	for word in forbidden:
+		if word in code:
+			raise Exception('Found security issue in {} while looking for {}'.format(filename, word))
+
 	exec(code, mdict) # 'exec' is the root of all eval, here we gonna sandbox
 	return module
