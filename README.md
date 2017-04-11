@@ -53,6 +53,9 @@ since they are surrounded horizontally (no need to be directly adjacent).
 
 # Windows
 % python -3 src/CoRe.py ai_1 ai_2
+
+% python src/statistic.py ai_1 ai_2 amount_of_games_to_calculate -log
+% -log is optional
 ```
 
 ### Example Match
@@ -65,5 +68,5 @@ since they are surrounded horizontally (no need to be directly adjacent).
 
 ```
 # 100 Matches
-% python src/statistic.py ai_templates/caveman.py ai_templates/crazy.py 100
+% python src/statistic.py ai_templates/caveman.py ai_templates/crazy.py 100 -log
 ```
