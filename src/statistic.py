@@ -1,8 +1,7 @@
 import gamelib_cs
-import os
 
-def clear_screen():
-	os.system('cls' if os.name=='nt' else 'clear')
+ai_1 = ''
+ai_2 = ''
 
 def initialize_board():
 	board = []
@@ -34,6 +33,7 @@ def flip_the_shit_out_of_it(board, x, y, player, other):
 	if x == 6 and y == 1 and board[0][7] == other: board[0][7] = player
 	if x == 6 and y == 6 and board[7][7] == other: board[7][7] = player
 	# right side of it
+	log_file = open('logfile_statistic_{}_v_{}.txt'.format(ai_1, ai_2), "a")
 	found = False
 	for i in range(x+1,8):
 		if board[y][i] == player: found = True
@@ -44,7 +44,7 @@ def flip_the_shit_out_of_it(board, x, y, player, other):
 			elif board[y][i] == other:
 				flipped = True
 				board[y][i] = player
-		if flipped: gamelib_cs.report('Flip right!')
+		if flipped: log_file.write('Flip right!\n')
 	# left side of it
 	found = False
 	for i in range(x)[::-1]:
@@ -56,7 +56,7 @@ def flip_the_shit_out_of_it(board, x, y, player, other):
 			elif board[y][i] == other:
 				flipped = True
 				board[y][i] = player
-		if flipped: gamelib_cs.report('Flip left!')
+		if flipped: log_file.write('Flip left!\n')
 	# bottom side of it
 	found = False
 	for i in range(y+1,8):
@@ -68,7 +68,7 @@ def flip_the_shit_out_of_it(board, x, y, player, other):
 			elif board[i][x] == other:
 				flipped = True
 				board[i][x] = player
-		if flipped: gamelib_cs.report('Flip bottom!')
+		if flipped: log_file.write('Flip bottom!\n')
 	# upper side of it
 	found = False
 	for i in range(y)[::-1]:
@@ -80,70 +80,72 @@ def flip_the_shit_out_of_it(board, x, y, player, other):
 			elif board[i][x] == other:
 				flipped = True
 				board[i][x] = player
-		if flipped: gamelib_cs.report('Flip top!')
+		if flipped: log_file.write('Flip top!\n')
 
 @gamelib_cs.game('CoRe', 'The Board Game')
 def game(*ai_list):
-	counter_1=0
-	counter_2=0
-	counter_tie=0
-	n=int(ai_list[2])
-	for i in range(n):
-		board = initialize_board()
-		player = 1 # becomes 0 at first switch
-		strike = [False, False]
-		while True:
-			if board_is_full(board): break
-			gamelib_cs.turn() # <- increases a counter value
-			player = 1-player # switch player
-			symbol = 'XO'[player]
-			try:
-				pos_x, pos_y = gamelib_cs.get(ai_list[player], 'turn')(gamelib_cs.copy_board(board), symbol)
-				assert isinstance(pos_x, int), "X Position is not <int> object"
-				assert isinstance(pos_y, int), "Y Position is not <int> object"
-			except Exception as e:
-				#gamelib_cs.report('Player {} loses because of raised exception: {}'.format(player+1,str(e)))
+	global ai_1
+	global ai_2
+	counter_1 = ai_list[4]
+	counter_2 = ai_list[5]
+	counter_tie = ai_list[6]
+	ai_1 = ai_list[2]
+	ai_2 = ai_list[3]
+	ai_list = ai_list[0:2]
+	board = initialize_board()
+	player = 1 # becomes 0 at first switch
+	strike = [False, False]
+	while True:
+		if board_is_full(board): break
+		gamelib_cs.turn() # <- increases a counter value
+		player = 1-player # switch player
+		symbol = 'XO'[player]
+		try:
+			pos_x, pos_y = gamelib_cs.get(ai_list[player], 'turn')(gamelib_cs.copy_board(board), symbol)
+			assert isinstance(pos_x, int), "X Position is not <int> object"
+			assert isinstance(pos_y, int), "Y Position is not <int> object"
+		except Exception as e:
+			log_file = open('logfile_statistic_{}_v_{}.txt'.format(ai_1, ai_2), "a")
+			log_file.write('Player {} loses because of raised exception: {}\n \n \n'.format(player+1,str(e)))
+			log_file.close()
+			if player%2==0:
+				counter_2+=1
+			if player%2==1:
+				counter_1+=1
+			return (counter_1, counter_2, counter_tie)
+		if pos_x in range(8) and pos_y in range(8) and board[pos_y][pos_x] == '#':
+			log_file = open('logfile_statistic_{}_v_{}.txt'.format(ai_1, ai_2), "a")
+			log_file.write('Player {} moved to {},{}\n \n'.format(player+1,pos_x+1,pos_y+1))
+			log_file.close()
+			board[pos_y][pos_x] = symbol
+			flip_the_shit_out_of_it(board, pos_x, pos_y, player=symbol, other='OX'[player])
+		else:
+			log_file = open('logfile_statistic_{}_v_{}.txt'.format(ai_1, ai_2), "a")
+			log_file.write('Player {} can not move to {},{}\n \n'.format(player+1,pos_x+1,pos_y+1))
+			log_file.close()
+			if strike[player]:
+				log_file = open('logfile_statistic_{}_v_{}.txt'.format(ai_1, ai_2), "a")
+				log_file.write('Player {} loses because of wrong gameplay.\n \n \n'.format(player+1))
+				log_file.close()
 				if player%2==0:
 					counter_2+=1
 				if player%2==1:
 					counter_1+=1
-				return
-			if pos_x in range(8) and pos_y in range(8) and board[pos_y][pos_x] == '#':
-				#gamelib_cs.report('Player {} moved to {},{}'.format(player+1,pos_x+1,pos_y+1))
-				board[pos_y][pos_x] = symbol
-				flip_the_shit_out_of_it(board, pos_x, pos_y, player=symbol, other='OX'[player])
-			else:
-				#gamelib_cs.report('Player {} can not move to {},{}'.format(player+1,pos_x+1,pos_y+1))
-				if strike[player]:
-					#gamelib_cs.report('Player {} loses because of wrong gameplay.'.format(player+1))
-					if player%2==0:
-						counter_2+=1
-					if player%2==1:
-						counter_1+=1
-					return
-				else: strike[player] = True
-			gamelib_cs.display_board(board)
-		(player_1, player_2) = score(board)
-		#gamelib_cs.report('Score: {} / {}'.format(player_1, player_2))
-		if player_1 > player_2:
-			#gamelib_cs.report('Player 1 won!')
-			counter_1+=1
-		if player_2 > player_1:
-			#gamelib_cs.report('Player 2 won!')
-			counter_2+=1
-		if player_1 == player_2:
-			#gamelib_cs.report("It's a tie!")
-			counter_tie+=1
-		clear_screen()
-		print('( {} / {} )'.format(i, n))
-		print('Kampfgetümmel...\n \n')
-		print('Anzahl der Siege von Spieler 1: {}'.format(counter_1))
-		print('Anzahl der Siege von Spieler 2: {}'.format(counter_2))
-		print('Anzahl der unentschiedenen Partien: {}'.format(counter_tie))
-	clear_screen()
-	print('( 100 / 100 )')
-	print('Fertig!')
-	print('Anzahl der Siege von Spieler 1: {}'.format(counter_1))
-	print('Anzahl der Siege von Spieler 2: {}'.format(counter_2))
-	print('Anzahl der unentschiedenen Partien: {}'.format(counter_tie))
+				return (counter_1, counter_2, counter_tie)
+			else: strike[player] = True
+		gamelib_cs.display_board(board, ai_1, ai_2)
+	(player_1, player_2) = score(board)
+	log_file = open('logfile_statistic_{}_v_{}.txt'.format(ai_1, ai_2), "a")
+	log_file.write('Score: {} / {}\n \n \n'.format(player_1, player_2))
+	if player_1 > player_2:
+		log_file.write('Player 1 won!\n \n \n')
+		counter_1+=1
+	if player_2 > player_1:
+		log_file.write('Player 2 won!\n \n \n')
+		counter_2+=1
+	if player_1 == player_2:
+		log_file.write("It's a tie!\n \n \n")
+		counter_tie+=1
+	log_file.close()
+	return (counter_1, counter_2, counter_tie)
 	
