@@ -136,7 +136,10 @@ def game(*ai_list):
 			counter_tie+=1
 		clear_screen()
 		print('( {} / {} )'.format(i, n))
-		print('Kampfgetümmel...')
+		print('Kampfgetümmel...\n \n')
+		print('Anzahl der Siege von Spieler 1: {}'.format(counter_1))
+		print('Anzahl der Siege von Spieler 2: {}'.format(counter_2))
+		print('Anzahl der unentschiedenen Partien: {}'.format(counter_tie))
 	clear_screen()
 	print('( 100 / 100 )')
 	print('Fertig!')
