@@ -57,7 +57,7 @@ def game(name='No Name Provided', desc=''):
 			print('Anzahl der Siege von Spieler 2: {}'.format(counter_2))
 			print('Anzahl der unentschiedenen Partien: {}'.format(counter_tie))
 		clear_screen()
-		print('( 100 / 100 )')
+		print('( {} / {} )'.format(n, n))
 		print('Fertig!')
 		print('Anzahl der Siege von Spieler 1: {}'.format(counter_1))
 		print('Anzahl der Siege von Spieler 2: {}'.format(counter_2))
